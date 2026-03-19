@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FP⚡ | Ethical Hacker & Developer</title>
+
+    <!-- SEO & Meta Tags -->
+    <meta name="description" content="Felipe Patiño — Tecnólogo en Desarrollo de Software y Ethical Hacker en formación. Full-Stack Developer especializado en seguridad ofensiva, OSINT y soluciones digitales para LATAM.">
+    <meta name="keywords" content="Felipe Patiño, desarrollador web, ethical hacker, ciberseguridad, OSINT, Kali Linux, Next.js, Angular, Colombia, Villavicencio, Eilof">
+    <meta name="author" content="Felipe Alejandro Patiño Hernández">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph (WhatsApp, Facebook, LinkedIn) -->
+    <meta property="og:title" content="FP⚡ | Ethical Hacker & Full-Stack Developer">
+    <meta property="og:description" content="Tecnólogo en Desarrollo de Software · Ethical Hacker en formación · Fundador de Eilof · Villavicencio, Colombia">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="images/og-preview.png">
+    <meta property="og:url" content="https://felipepatino.dev">
+    <meta property="og:locale" content="es_CO">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FP⚡ | Ethical Hacker & Developer">
+    <meta name="twitter:description" content="Full-Stack Developer · Ethical Hacker · Fundador de Eilof">
+    <meta name="twitter:image" content="images/og-preview.png">
+
+    <!-- Favicon SVG inline (FP⚡) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23050a0f'/><text y='55' x='50' text-anchor='middle' font-size='42' font-family='Arial Black,sans-serif' font-weight='900' fill='%2300d4ff'>FP</text><text y='78' x='68' text-anchor='middle' font-size='32' fill='%2300ff88'>⚡</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23050a0f'/><text y='55' x='50' text-anchor='middle' font-size='42' font-family='Arial Black,sans-serif' font-weight='900' fill='%2300d4ff'>FP</text><text y='78' x='68' text-anchor='middle' font-size='32' fill='%2300ff88'>⚡</text></svg>">
+
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --black: #050a0f;
+            --dark-blue: #0d1b2a;
+            --blue-glow: #00d4ff;
+            --green-glow: #00ff88;
+            --warm-blue: #1e3a8a;
+            --gray: #1a2535;
+            --white: #e0e6ff;
+            --accent2: #7c3aed;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--black); color: var(--white); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; cursor: none; }
+
+        .cursor { width:12px;height:12px;background:var(--blue-glow);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform 0.1s ease;box-shadow:0 0 15px var(--blue-glow); }
+        .cursor-ring { width:36px;height:36px;border:1.5px solid rgba(0,212,255,0.5);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transition:all 0.15s ease; }
+        #bg-canvas { position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.6; }
+        .scanlines { position:fixed;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);pointer-events:none;z-index:1; }
+
+        .navbar { position:fixed;top:0;width:100%;background:rgba(5,10,15,0.85);backdrop-filter:blur(24px);z-index:1000;padding:1rem 0;transition:transform 0.4s ease;border-bottom:1px solid rgba(0,212,255,0.2); }
+        .navbar.hidden { transform:translateY(-100%); }
+        .nav-container { max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:0 2rem; }
+        .logo { font-family:'Orbitron',monospace;font-size:1.8rem;font-weight:900;background:linear-gradient(45deg,var(--blue-glow),var(--green-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px; }
+        .nav-menu { display:flex;list-style:none;gap:0.5rem; }
+        .nav-link { color:rgba(224,230,255,0.7);text-decoration:none;font-weight:600;padding:0.5rem 1rem;border-radius:8px;transition:all 0.3s ease;font-size:0.9rem;letter-spacing:1px;position:relative; }
+        .nav-link::after { content:'';position:absolute;bottom:4px;left:50%;right:50%;height:2px;background:var(--blue-glow);transition:all 0.3s ease;box-shadow:0 0 8px var(--blue-glow); }
+        .nav-link:hover { color:var(--blue-glow); }
+        .nav-link:hover::after { left:10%;right:10%; }
+
+        section { position:relative;z-index:2; }
+        .section { padding:120px 2rem;max-width:1200px;margin:0 auto; }
+        .section-title { font-family:'Orbitron',monospace;font-size:clamp(1.8rem,4vw,3rem);text-align:center;margin-bottom:4rem;background:linear-gradient(90deg,var(--blue-glow),var(--green-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;position:relative; }
+        .section-title::after { content:'';display:block;width:80px;height:3px;background:linear-gradient(90deg,var(--blue-glow),var(--green-glow));margin:12px auto 0;box-shadow:0 0 12px var(--blue-glow);border-radius:2px; }
+
+        /* HERO */
+        .hero { height:100vh;display:flex;align-items:center;justify-content:center;text-align:center; }
+        .hero-content { max-width:860px;padding:0 2rem; }
+        .hero h1 { font-family:'Orbitron',monospace;font-size:clamp(3rem,7vw,5.5rem);font-weight:900;margin-bottom:1rem;background:linear-gradient(135deg,var(--blue-glow) 0%,var(--green-glow) 50%,var(--blue-glow) 100%);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s infinite linear; }
+        @keyframes shimmer { 0%{background-position:0%}100%{background-position:200%} }
+        .hero-subtitle { font-size:clamp(1.1rem,2.5vw,1.5rem);margin-bottom:0.8rem;opacity:0.85;letter-spacing:2px; }
+        .hero-mono { font-family:'Share Tech Mono',monospace;color:var(--green-glow);font-size:1rem;margin-bottom:2.5rem;opacity:0.8; }
+        .cta-buttons { display:flex;gap:1rem;justify-content:center;flex-wrap:wrap; }
+        .btn { padding:0.9rem 2rem;border:none;border-radius:8px;font-weight:700;text-decoration:none;transition:all 0.3s ease;cursor:none;font-family:'Orbitron',monospace;font-size:0.85rem;letter-spacing:1px; }
+        .btn-primary { background:linear-gradient(135deg,var(--blue-glow),#0099bb);color:var(--black);box-shadow:0 0 25px rgba(0,212,255,0.4); }
+        .btn-primary:hover { transform:translateY(-3px);box-shadow:0 0 45px rgba(0,212,255,0.7); }
+        .btn-outline { background:transparent;border:1.5px solid var(--green-glow);color:var(--green-glow);box-shadow:0 0 15px rgba(0,255,136,0.2); }
+        .btn-outline:hover { background:rgba(0,255,136,0.1);box-shadow:0 0 30px rgba(0,255,136,0.4);transform:translateY(-3px); }
+
+        /* ABOUT */
+        .about-grid { display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center; }
+        .about-photo-wrap { position:relative;display:flex;justify-content:center; }
+        .about-photo { width:260px;height:260px;border-radius:50%;object-fit:cover;object-position:center top;border:3px solid var(--blue-glow);box-shadow:0 0 40px rgba(0,212,255,0.4);position:relative;z-index:1; }
+        .about-photo-ring { position:absolute;width:290px;height:290px;border-radius:50%;border:1px solid rgba(0,212,255,0.2);animation:spin-slow 12s linear infinite;top:50%;left:50%;transform:translate(-50%,-50%); }
+        .about-photo-ring::before { content:'';position:absolute;width:10px;height:10px;background:var(--blue-glow);border-radius:50%;top:-5px;left:50%;box-shadow:0 0 12px var(--blue-glow); }
+        @keyframes spin-slow { from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(360deg)} }
+        .about-text p { font-size:1.1rem;margin-bottom:1.3rem;opacity:0.85;line-height:1.8; }
+        .about-stats { display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem; }
+        .stat-card { background:rgba(13,27,42,0.8);border:1px solid rgba(0,212,255,0.25);border-radius:16px;padding:1.2rem;text-align:center;transition:all 0.3s ease;position:relative;overflow:hidden; }
+        .stat-card::before { content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue-glow),var(--green-glow)); }
+        .stat-card:hover { border-color:var(--blue-glow);box-shadow:0 0 30px rgba(0,212,255,0.2);transform:translateY(-5px); }
+        .stat-num { font-family:'Orbitron',monospace;font-size:1.8rem;font-weight:900;background:linear-gradient(45deg,var(--blue-glow),var(--green-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent; }
+        .stat-label { font-size:0.8rem;opacity:0.6;margin-top:0.2rem;letter-spacing:1px; }
+        .availability { display:inline-flex;align-items:center;gap:0.6rem;background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.3);padding:0.5rem 1.2rem;border-radius:30px;font-size:0.9rem;color:var(--green-glow);margin-top:1rem; }
+        .availability .dot { width:8px;height:8px;background:var(--green-glow);border-radius:50%;box-shadow:0 0 10px var(--green-glow);animation:pulse-dot 2s infinite; }
+        @keyframes pulse-dot { 0%,100%{box-shadow:0 0 6px var(--green-glow);}50%{box-shadow:0 0 16px var(--green-glow),0 0 30px var(--green-glow);} }
+
+        /* ===================== SKILLS — CON HOVER FIX ===================== */
+        .skills-container { display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.5rem; }
+        .skill-category { background:rgba(13,27,42,0.7);padding:2rem;border-radius:20px;border:1px solid rgba(0,212,255,0.2);transition:all 0.4s ease;position:relative;overflow:hidden; }
+        .skill-category::before { content:'';position:absolute;top:0;left:-100%;width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--blue-glow),transparent);transition:left 0.6s ease; }
+        .skill-category:hover::before { left:100%; }
+        .skill-category:hover { border-color:var(--blue-glow);box-shadow:0 20px 50px rgba(0,212,255,0.15);transform:translateY(-8px); }
+        .skill-category h3 { font-family:'Orbitron',monospace;margin-bottom:1.5rem;color:var(--blue-glow);font-size:1.1rem;letter-spacing:2px; }
+        .skill-logos { display:flex;flex-wrap:wrap;gap:0.8rem;justify-content:center; }
+
+        /* === EL FIX: overflow:hidden + data-label via ::after === */
+        .skill-logo {
+            width:56px;
+            height:56px;
+            background:rgba(255,255,255,0.05);
+            border-radius:12px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:1.8rem;
+            transition:all 0.3s ease;
+            border:1px solid rgba(255,255,255,0.08);
+            position:relative;
+            overflow:hidden; /* <-- clave para contener el overlay */
+        }
+        .skill-logo:hover {
+            transform:scale(1.15);
+            background:rgba(0,212,255,0.12);
+            border-color:var(--blue-glow);
+            box-shadow:0 0 18px rgba(0,212,255,0.3);
+        }
+        /* Overlay con el nombre, se desliza desde abajo */
+        .skill-logo::after {
+            content: attr(data-label);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,212,255,0.22);
+            backdrop-filter: blur(4px);
+            color: #00d4ff;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.38rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 5px 3px;
+            letter-spacing: 0.2px;
+            text-transform: uppercase;
+            line-height: 1.2;
+            border-radius: 0 0 11px 11px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            transform: translateY(100%);
+            transition: transform 0.22s ease;
+        }
+        .skill-logo:hover::after {
+            transform: translateY(0);
+        }
+        /* ================================================================= */
+
+        /* PROJECTS */
+        .projects-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:2rem; }
+        .project-card { height:300px;border-radius:20px;overflow:hidden;cursor:none;transition:all 0.4s ease;border:1px solid rgba(0,212,255,0.2);position:relative; }
+        .project-card:hover { transform:translateY(-10px);box-shadow:0 30px 60px rgba(0,212,255,0.25);border-color:var(--blue-glow); }
+        .project-image { width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease; }
+        .project-card:hover .project-image { transform:scale(1.05); }
+        .project-overlay { position:absolute;inset:0;background:linear-gradient(to top,rgba(5,10,15,0.97) 0%,rgba(5,10,15,0.5) 60%,transparent 100%);padding:1.8rem;display:flex;flex-direction:column;justify-content:flex-end;opacity:0;transition:opacity 0.4s ease; }
+        .project-card:hover .project-overlay { opacity:1; }
+        .project-overlay h3 { font-family:'Orbitron',monospace;font-size:1.1rem;margin-bottom:0.4rem;color:var(--blue-glow); }
+        .project-overlay p { opacity:0.8;font-size:0.9rem;margin-bottom:0.8rem; }
+        .project-tags { display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.6rem; }
+        .project-tag { font-size:0.72rem;padding:0.2rem 0.6rem;border-radius:20px;border:1px solid rgba(0,212,255,0.5);background:rgba(0,212,255,0.1);color:var(--blue-glow);font-family:'Share Tech Mono',monospace; }
+        .view-btn { display:inline-flex;align-items:center;gap:0.4rem;color:var(--green-glow);font-size:0.85rem;font-weight:700;letter-spacing:1px; }
+
+        /* MODAL */
+        .modal { display:none;position:fixed;inset:0;z-index:2000;background:rgba(5,10,15,0.88);backdrop-filter:blur(16px) saturate(0.6);align-items:center;justify-content:center;padding:1.5rem; }
+        .modal.open { display:flex; }
+        .modal-content { background:linear-gradient(135deg,rgba(13,27,42,0.98),rgba(5,10,15,0.99));border:1px solid rgba(0,212,255,0.4);border-radius:24px;width:100%;max-width:680px;max-height:88vh;overflow-y:auto;animation:modalIn 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards;box-shadow:0 40px 80px rgba(0,0,0,0.7); }
+        @keyframes modalIn { from{opacity:0;transform:scale(0.85) translateY(30px)} to{opacity:1;transform:scale(1) translateY(0)} }
+        .modal-header { padding:1.8rem 2rem;border-bottom:1px solid rgba(0,212,255,0.15);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:rgba(13,27,42,0.98);border-radius:24px 24px 0 0; }
+        .modal-title { font-family:'Orbitron',monospace;font-size:1.3rem;color:var(--blue-glow); }
+        .close { width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;cursor:none;font-size:1.2rem;transition:all 0.2s;color:var(--white); }
+        .close:hover { background:rgba(0,212,255,0.15);border-color:var(--blue-glow);color:var(--blue-glow); }
+        .modal-body { padding:2rem; }
+        .modal-imgs { display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1.5rem; }
+        .modal-img { width:100%;height:160px;object-fit:cover;border-radius:12px;border:1px solid rgba(0,212,255,0.2); }
+        .modal-img.single { grid-column:1/-1;height:220px; }
+        .modal-body > p { opacity:0.85;margin-bottom:1.2rem;line-height:1.7;font-size:1rem; }
+        .tech-tags { display:flex;flex-wrap:wrap;gap:0.6rem;margin:1.2rem 0; }
+        .tech-tag { background:rgba(0,212,255,0.1);padding:0.4rem 1rem;border-radius:20px;border:1px solid rgba(0,212,255,0.4);font-size:0.85rem;color:var(--blue-glow);font-family:'Share Tech Mono',monospace; }
+        .features-list { list-style:none;margin:1rem 0; }
+        .features-list li { padding:0.7rem 0;border-bottom:1px solid rgba(0,212,255,0.08);display:flex;align-items:flex-start;gap:0.7rem;font-size:0.95rem;opacity:0.9; }
+        .features-list li::before { content:"▸";color:var(--green-glow);flex-shrink:0;margin-top:1px; }
+        .status-badge { display:inline-flex;align-items:center;gap:0.4rem;padding:0.3rem 0.8rem;border-radius:20px;font-size:0.8rem;font-family:'Share Tech Mono',monospace;margin-bottom:1rem; }
+        .status-active { background:rgba(0,255,136,0.1);border:1px solid var(--green-glow);color:var(--green-glow); }
+        .status-wip { background:rgba(255,200,0,0.1);border:1px solid #ffc800;color:#ffc800; }
+        .status-concept { background:rgba(0,212,255,0.1);border:1px solid var(--blue-glow);color:var(--blue-glow); }
+
+        /* TIMELINE */
+        .timeline { position:relative;max-width:900px;margin:0 auto; }
+        .timeline::before { content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--blue-glow),var(--green-glow));transform:translateX(-50%);box-shadow:0 0 10px var(--blue-glow); }
+        .tl-item { display:grid;grid-template-columns:1fr 60px 1fr;gap:0;margin-bottom:3rem;align-items:start; }
+        .tl-item:nth-child(odd) .tl-content { grid-column:1;text-align:right;padding-right:2rem; }
+        .tl-item:nth-child(odd) .tl-dot-wrap { grid-column:2; }
+        .tl-item:nth-child(odd) .tl-empty { grid-column:3; }
+        .tl-item:nth-child(even) .tl-empty { grid-column:1; }
+        .tl-item:nth-child(even) .tl-dot-wrap { grid-column:2; }
+        .tl-item:nth-child(even) .tl-content { grid-column:3;padding-left:2rem; }
+        .tl-dot-wrap { display:flex;justify-content:center;padding-top:0.5rem; }
+        .tl-dot { width:20px;height:20px;border-radius:50%;background:var(--blue-glow);box-shadow:0 0 15px var(--blue-glow);border:3px solid var(--dark-blue);flex-shrink:0; }
+        .tl-dot.future { background:var(--green-glow);box-shadow:0 0 15px var(--green-glow);animation:pulse-dot 2s infinite; }
+        .tl-content { background:rgba(13,27,42,0.8);border:1px solid rgba(0,212,255,0.2);border-radius:16px;padding:1.3rem;transition:all 0.3s; }
+        .tl-content:hover { border-color:var(--blue-glow);box-shadow:0 0 20px rgba(0,212,255,0.15); }
+        .tl-year { font-family:'Orbitron',monospace;font-size:0.85rem;color:var(--blue-glow);margin-bottom:0.4rem;letter-spacing:2px; }
+        .tl-title { font-weight:700;font-size:1rem;margin-bottom:0.4rem; }
+        .tl-desc { font-size:0.88rem;opacity:0.7;line-height:1.6; }
+        .tl-content.future-card { border-color:rgba(0,255,136,0.3); }
+        .tl-content.future-card .tl-year { color:var(--green-glow); }
+        .tl-cv-btn { display:inline-flex;align-items:center;gap:0.5rem;margin-top:0.8rem;padding:0.45rem 1rem;background:rgba(0,212,255,0.1);border:1px solid var(--blue-glow);border-radius:8px;color:var(--blue-glow);font-size:0.8rem;font-family:'Orbitron',monospace;cursor:none;transition:all 0.2s; }
+        .tl-cv-btn:hover { background:rgba(0,212,255,0.2);box-shadow:0 0 15px rgba(0,212,255,0.3); }
+
+        /* CONTACT */
+        .contact-grid { display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start; }
+        .contact-text h3 { font-family:'Orbitron',monospace;font-size:1.3rem;color:var(--blue-glow);margin-bottom:1rem; }
+        .contact-text p { opacity:0.85;line-height:1.8;margin-bottom:1.2rem;font-size:1rem; }
+        .contact-cards { display:flex;flex-direction:column;gap:1rem; }
+        .contact-card { display:flex;align-items:center;gap:1.2rem;background:rgba(13,27,42,0.7);border:1px solid rgba(0,212,255,0.2);border-radius:16px;padding:1.2rem 1.5rem;transition:all 0.3s ease;text-decoration:none;color:var(--white); }
+        .contact-card:hover { border-color:var(--blue-glow);background:rgba(0,212,255,0.08);transform:translateX(8px);box-shadow:-4px 0 0 var(--blue-glow); }
+        .contact-icon { width:46px;height:46px;border-radius:12px;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:var(--blue-glow);flex-shrink:0; }
+        .contact-card-info strong { display:block;font-size:0.95rem;margin-bottom:0.1rem; }
+        .contact-card-info span { font-size:0.82rem;opacity:0.6;font-family:'Share Tech Mono',monospace; }
+        .contact-card-arrow { opacity:0.4;transition:all 0.3s; }
+        .contact-card:hover .contact-card-arrow { opacity:1;color:var(--blue-glow);transform:translateX(4px); }
+
+        /* FOOTER */
+        footer { position:relative;z-index:2;background:rgba(5,10,15,0.95);border-top:1px solid rgba(0,212,255,0.15);margin-top:4rem; }
+        .footer-main { max-width:1200px;margin:0 auto;padding:4rem 2rem 3rem;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem; }
+        .footer-brand .logo { font-size:2rem;display:block;margin-bottom:1rem; }
+        .footer-brand p { opacity:0.6;font-size:0.9rem;line-height:1.7;max-width:280px; }
+        .eilof-badge { display:inline-flex;align-items:center;gap:0.5rem;margin-top:1.5rem;background:linear-gradient(135deg,rgba(0,212,255,0.1),rgba(124,58,237,0.1));border:1px solid rgba(124,58,237,0.4);padding:0.5rem 1.2rem;border-radius:8px;font-family:'Orbitron',monospace;font-size:0.8rem;color:var(--accent2); }
+        .footer-col h4 { font-family:'Orbitron',monospace;font-size:0.85rem;color:var(--blue-glow);margin-bottom:1.5rem;letter-spacing:2px; }
+        .footer-links { list-style:none;display:flex;flex-direction:column;gap:0.8rem; }
+        .footer-links a { color:rgba(224,230,255,0.5);text-decoration:none;font-size:0.9rem;transition:all 0.2s;display:flex;align-items:center;gap:0.5rem; }
+        .footer-links a::before { content:'▸';color:transparent;transition:all 0.2s;font-size:0.75rem; }
+        .footer-links a:hover { color:var(--white);padding-left:4px; }
+        .footer-links a:hover::before { color:var(--green-glow); }
+        .footer-social { display:flex;flex-direction:column;gap:0.8rem; }
+        .social-link { display:flex;align-items:center;gap:0.8rem;color:rgba(224,230,255,0.5);text-decoration:none;font-size:0.9rem;transition:all 0.2s;padding:0.5rem 0.8rem;border-radius:8px; }
+        .social-link:hover { background:rgba(0,212,255,0.08);color:var(--blue-glow); }
+        .footer-bottom { max-width:1200px;margin:0 auto;padding:1.5rem 2rem;border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem; }
+        .footer-bottom p { opacity:0.4;font-size:0.82rem;font-family:'Share Tech Mono',monospace; }
+        .terminal-line { font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:var(--green-glow);opacity:0.6; }
+        .terminal-line span { animation:blink 1.5s step-end infinite; }
+        @keyframes blink { 50%{opacity:0} }
+
+        /* CV MODAL */
+        .cv-modal-body { padding:2rem;text-align:center; }
+        .cv-modal-body h3 { font-family:'Orbitron',monospace;color:var(--blue-glow);margin-bottom:1rem; }
+        .cv-modal-body p { opacity:0.8;margin-bottom:2rem;line-height:1.7; }
+        .cv-download-btn { display:inline-flex;align-items:center;gap:0.7rem;padding:1rem 2rem;background:linear-gradient(135deg,var(--blue-glow),#0099bb);color:var(--black);border-radius:12px;font-family:'Orbitron',monospace;font-weight:700;font-size:0.9rem;text-decoration:none;transition:all 0.3s;cursor:none; }
+        .cv-download-btn:hover { transform:translateY(-3px);box-shadow:0 0 30px rgba(0,212,255,0.5); }
+
+        /* ANIMATIONS */
+        .animate { opacity:0;transform:translateY(50px);transition:all 0.8s cubic-bezier(0.25,0.46,0.45,0.94); }
+        .animate.active { opacity:1;transform:translateY(0); }
+        .animate-left { opacity:0;transform:translateX(-50px);transition:all 0.8s ease; }
+        .animate-left.active { opacity:1;transform:translateX(0); }
+        .animate-right { opacity:0;transform:translateX(50px);transition:all 0.8s ease; }
+        .animate-right.active { opacity:1;transform:translateX(0); }
+
+        /* HAMBURGER BUTTON */
+        .hamburger { display:none;flex-direction:column;gap:5px;cursor:none;padding:8px;border:none;background:transparent;z-index:1001; }
+        .hamburger span { display:block;width:24px;height:2px;background:var(--blue-glow);border-radius:2px;transition:all 0.3s ease;box-shadow:0 0 6px var(--blue-glow); }
+        .hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity:0; }
+        .hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+        /* CONTACT FORM */
+        .contact-form { display:flex;flex-direction:column;gap:1rem; }
+        .form-group { display:flex;flex-direction:column;gap:0.4rem; }
+        .form-group label { font-family:'Orbitron',monospace;font-size:0.75rem;color:var(--blue-glow);letter-spacing:1px; }
+        .form-group input,
+        .form-group textarea {
+            background:rgba(13,27,42,0.8);
+            border:1px solid rgba(0,212,255,0.25);
+            border-radius:10px;
+            padding:0.8rem 1rem;
+            color:var(--white);
+            font-family:'Rajdhani',sans-serif;
+            font-size:1rem;
+            transition:all 0.3s ease;
+            outline:none;
+            resize:none;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus { border-color:var(--blue-glow);box-shadow:0 0 15px rgba(0,212,255,0.15); }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { opacity:0.4;font-size:0.9rem; }
+        .btn-send {
+            display:inline-flex;align-items:center;justify-content:center;gap:0.6rem;
+            padding:0.9rem 2rem;background:linear-gradient(135deg,var(--blue-glow),#0099bb);
+            color:var(--black);border:none;border-radius:10px;font-family:'Orbitron',monospace;
+            font-size:0.85rem;font-weight:700;letter-spacing:1px;cursor:none;
+            transition:all 0.3s ease;margin-top:0.5rem;
+        }
+        .btn-send:hover { transform:translateY(-3px);box-shadow:0 0 30px rgba(0,212,255,0.5); }
+        .btn-send:disabled { opacity:0.6;transform:none;cursor:not-allowed; }
+        .form-status { font-family:'Share Tech Mono',monospace;font-size:0.85rem;text-align:center;padding:0.6rem;border-radius:8px;display:none; }
+        .form-status.success { background:rgba(0,255,136,0.1);border:1px solid var(--green-glow);color:var(--green-glow);display:block; }
+        .form-status.error { background:rgba(255,60,60,0.1);border:1px solid #ff3c3c;color:#ff3c3c;display:block; }
+
+        @media (max-width:900px) {
+            .about-grid { grid-template-columns:1fr; }
+            .contact-grid { grid-template-columns:1fr; }
+            .footer-main { grid-template-columns:1fr 1fr; }
+            .timeline::before { left:24px; }
+            .tl-item { grid-template-columns:40px 1fr; }
+            .tl-item:nth-child(odd) .tl-content,
+            .tl-item:nth-child(even) .tl-content { grid-column:2;text-align:left;padding-left:1.5rem;padding-right:0; }
+            .tl-item:nth-child(odd) .tl-dot-wrap,
+            .tl-item:nth-child(even) .tl-dot-wrap { grid-column:1; }
+            .tl-item .tl-empty { display:none; }
+        }
+        @media (max-width:768px) {
+            .hamburger { display:flex; }
+            .nav-menu {
+                display:flex;
+                flex-direction:column;
+                position:fixed;
+                top:0;left:0;right:0;bottom:0;
+                background:rgba(5,10,15,0.97);
+                backdrop-filter:blur(20px);
+                align-items:center;
+                justify-content:center;
+                gap:2rem;
+                opacity:0;
+                pointer-events:none;
+                transition:opacity 0.3s ease;
+                z-index:999;
+            }
+            .nav-menu.open { opacity:1;pointer-events:all; }
+            .nav-link { font-size:1.4rem;letter-spacing:3px; }
+            .footer-main { grid-template-columns:1fr; }
+            .modal-imgs { grid-template-columns:1fr; }
+            .projects-grid { grid-template-columns:1fr; }
+            .hero h1 { font-size:2.5rem; }
+            .section { padding:80px 1.2rem; }
+            .cta-buttons { flex-direction:column;align-items:center; }
+        }
+    </style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="scanlines"></div>
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <div class="logo">FP⚡</div>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="#home" class="nav-link">Inicio</a></li>
+            <li><a href="#about" class="nav-link">Sobre mí</a></li>
+            <li><a href="#skills" class="nav-link">Skills</a></li>
+            <li><a href="#projects" class="nav-link">Proyectos</a></li>
+            <li><a href="#timeline" class="nav-link">Trayectoria</a></li>
+            <li><a href="#contact" class="nav-link">Contacto</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Menú">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="hero">
+    <div class="hero-content animate">
+        <h1>Felipe Patiño</h1>
+        <p class="hero-subtitle">Ethical Hacker · Full-Stack Developer</p>
+        <p class="hero-mono" id="typing-text"></p>
+        <div class="cta-buttons" style="margin-top:2.5rem">
+            <a href="#contact" class="btn btn-primary">Contáctame</a>
+            <a href="#projects" class="btn btn-outline">Ver proyectos</a>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+    <div class="section">
+        <h2 class="section-title animate">Sobre Mí</h2>
+        <div class="about-grid">
+            <div class="about-photo-wrap animate-left">
+                <div class="about-photo-ring"></div>
+                <img src="images/mi portafolio.jpeg" alt="Felipe Patiño" class="about-photo" onerror="this.style.background='linear-gradient(135deg,#0d1b2a,#00d4ff22)';this.style.border='3px solid var(--blue-glow)'">
+            </div>
+            <div class="about-text animate-right">
+                <p>Tecnólogo en Formación en Desarrollo de Software con enfoque dual: construyo aplicaciones web robustas y analizo la seguridad de los sistemas que las rodean.</p>
+                <p>Fundador de <strong style="color:var(--blue-glow)">Eilof</strong> — una visión orientada a ciberseguridad y desarrollo de alto rendimiento para empresas de LATAM.</p>
+                <p>Mi filosofía: <em style="color:var(--green-glow)">el código más seguro es el que se escribe conociendo cómo se rompe.</em></p>
+                <div class="availability">
+                    <span class="dot"></span>
+                    Disponible · Villavicencio, Colombia
+                </div>
+                <div class="about-stats" style="margin-top:1.5rem">
+                    <div class="stat-card"><div class="stat-num">5+</div><div class="stat-label">PROYECTOS</div></div>
+                    <div class="stat-card"><div class="stat-num">10+</div><div class="stat-label">TECNOLOGÍAS</div></div>
+                    <div class="stat-card"><div class="stat-num">B1</div><div class="stat-label">INGLÉS</div></div>
+                    <div class="stat-card"><div class="stat-num">∞</div><div class="stat-label">APRENDIZAJE</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+    <div class="section">
+        <h2 class="section-title animate">Tecnologías</h2>
+        <div class="skills-container">
+
+            <div class="skill-category animate">
+                <h3>Lenguajes</h3>
+                <div class="skill-logos">
+                    <div class="skill-logo" data-label="JavaScript"><i class="fab fa-js-square" style="color:#f7df1e"></i></div>
+                    <div class="skill-logo" data-label="Python"><i class="fab fa-python" style="color:#3776ab"></i></div>
+                    <div class="skill-logo" data-label="Java"><i class="fab fa-java" style="color:#f98100"></i></div>
+                    <div class="skill-logo" data-label="C#" style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:#9b59b6;letter-spacing:-1px;">C#</div>
+                    <div class="skill-logo" data-label="C++" style="font-family:'Orbitron',monospace;font-size:0.9rem;font-weight:900;color:#00bcd4;letter-spacing:-1px;">C++</div>
+                    <div class="skill-logo" data-label="SQL" style="font-family:'Orbitron',monospace;font-size:0.7rem;font-weight:900;color:#003b57;letter-spacing:-1px;">SQL</div>
+                    <div class="skill-logo" data-label="TypeScript" style="font-family:'Orbitron',monospace;font-size:0.85rem;font-weight:900;color:#007acc;letter-spacing:-1px;">TS</div>
+                    <div class="skill-logo" data-label="Dart" style="font-family:'Orbitron',monospace;font-size:0.85rem;font-weight:900;color:#0175c2;letter-spacing:-1px;">Dt</div>
+                </div>
+            </div>
+
+            <div class="skill-category animate">
+                <h3>Frontend</h3>
+                <div class="skill-logos">
+                    <div class="skill-logo" data-label="React"><i class="fab fa-react" style="color:#61dafb"></i></div>
+                    <div class="skill-logo" data-label="Angular"><i class="fab fa-angular" style="color:#dd0031"></i></div>
+                    <div class="skill-logo" data-label="HTML5"><i class="fab fa-html5" style="color:#e34f26"></i></div>
+                    <div class="skill-logo" data-label="CSS3"><i class="fab fa-css3-alt" style="color:#2965f1"></i></div>
+                    <div class="skill-logo" data-label="JavaScript"><i class="fab fa-js-square" style="color:#f7df1e"></i></div>
+                    <div class="skill-logo" data-label="Flutter" style="font-family:'Orbitron',monospace;font-size:0.75rem;font-weight:900;color:#0186ff;letter-spacing:-1px;">FLT</div>
+                    <div class="skill-logo" data-label="Next.js"><i class="fas fa-n" style="color:#e0e6ff;font-size:1.5rem;font-weight:900"></i></div>
+                </div>
+            </div>
+
+            <div class="skill-category animate">
+                <h3>Backend & BD</h3>
+                <div class="skill-logos">
+                    <div class="skill-logo" data-label="Node.js"><i class="fab fa-node-js" style="color:#68a063"></i></div>
+                    <div class="skill-logo" data-label="Java"><i class="fab fa-java" style="color:#f98100"></i></div>
+                    <div class="skill-logo" data-label="MongoDB"><i class="fas fa-leaf" style="color:#47a248"></i></div>
+                    <div class="skill-logo" data-label="Git"><i class="fab fa-git-alt" style="color:#f34f29"></i></div>
+                    <div class="skill-logo" data-label="GitHub"><i class="fab fa-github" style="color:#e0e6ff"></i></div>
+                    <div class="skill-logo" data-label="PostgreSQL" style="font-family:'Orbitron',monospace;font-size:0.75rem;font-weight:900;color:#336791;letter-spacing:-1px;">PG</div>
+                    <div class="skill-logo" data-label="SQLite" style="font-family:'Orbitron',monospace;font-size:0.7rem;font-weight:900;color:#003b57;letter-spacing:-1px;">SQL</div>
+                </div>
+            </div>
+
+            <div class="skill-category animate">
+                <h3>Datos & BI</h3>
+                <div class="skill-logos">
+                    <div class="skill-logo" data-label="Python"><i class="fab fa-python" style="color:#3776ab"></i></div>
+                    <div class="skill-logo" data-label="MySQL"><i class="fas fa-database" style="color:#00758f"></i></div>
+                    <div class="skill-logo" data-label="Excel"><i class="fas fa-file-excel" style="color:#217346"></i></div>
+                    <div class="skill-logo" data-label="Pandas" style="font-family:'Orbitron',monospace;font-size:0.65rem;font-weight:900;color:#e70488;letter-spacing:-1px;">PD</div>
+                    <div class="skill-logo" data-label="NumPy" style="font-family:'Orbitron',monospace;font-size:0.65rem;font-weight:900;color:#4dabcf;">NP</div>
+                    <div class="skill-logo" data-label="Matplotlib"><i class="fas fa-chart-line" style="color:#11557c"></i></div>
+                    <div class="skill-logo" data-label="Folium"><i class="fas fa-map-marked-alt" style="color:#77b829"></i></div>
+                </div>
+            </div>
+
+            <div class="skill-category animate">
+                <h3>Ciberseguridad</h3>
+                <div class="skill-logos">
+                    <div class="skill-logo" data-label="Kali Linux"><i class="fab fa-linux" style="color:#e6e420"></i></div>
+                    <div class="skill-logo" data-label="Docker"><i class="fab fa-docker" style="color:#2496ed"></i></div>
+                    <div class="skill-logo" data-label="Nmap"><i class="fas fa-network-wired" style="color:#00d4ff"></i></div>
+                    <div class="skill-logo" data-label="Wireshark"><i class="fas fa-wave-square" style="color:#1679a7"></i></div>
+                    <div class="skill-logo" data-label="OSINT"><i class="fas fa-search" style="color:#00ff88"></i></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+    <div class="section">
+        <h2 class="section-title animate">Proyectos</h2>
+        <div class="projects-grid">
+
+            <div class="project-card animate" data-modal="appandamios">
+                <img src="images/appandamios.png" alt="AppAndamios" class="project-image" onerror="this.src='https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80'">
+                <div class="project-overlay">
+                    <h3>Sistema POS — Andamios V.H</h3>
+                    <p>Software de gestión para empresa de alquiler de construcción</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Next.js</span>
+                        <span class="project-tag">Supabase</span>
+                        <span class="project-tag">TypeScript</span>
+                    </div>
+                    <div class="view-btn">Ver detalles <i class="fas fa-arrow-right"></i></div>
+                </div>
+            </div>
+
+            <div class="project-card animate" data-modal="avisos">
+                <img src="images/avisos.bogota.png" alt="Avisos Bogotá" class="project-image" onerror="this.src='https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&q=80'">
+                <div class="project-overlay">
+                    <h3>Creativa Avisos — Gestión Pro</h3>
+                    <p>Sistema de cotizaciones, pedidos y control de materiales</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Angular</span>
+                        <span class="project-tag">NestJS</span>
+                        <span class="project-tag">Siigo API</span>
+                    </div>
+                    <div class="view-btn">Ver detalles <i class="fas fa-arrow-right"></i></div>
+                </div>
+            </div>
+
+            <div class="project-card animate" data-modal="mapa">
+                <img src="images/analicisdedatosmapadecalor.png" alt="Mapa de Calor" class="project-image" onerror="this.src='https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80'">
+                <div class="project-overlay">
+                    <h3>Big Data — Análisis de Transporte NYC</h3>
+                    <p>Visualización de afluencia de taxis con mapas de calor</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Python</span>
+                        <span class="project-tag">Folium</span>
+                        <span class="project-tag">Pandas</span>
+                    </div>
+                    <div class="view-btn">Ver detalles <i class="fas fa-arrow-right"></i></div>
+                </div>
+            </div>
+
+            <div class="project-card animate" data-modal="devmarket">
+                <img src="images/devmarket.png" alt="DevMarket" class="project-image" onerror="this.src='https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80'">
+                <div class="project-overlay">
+                    <h3>DevMarket — E-Commerce</h3>
+                    <p>Tienda en línea con análisis de datos y API integration</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Angular</span>
+                        <span class="project-tag">FakeStore API</span>
+                        <span class="project-tag">TypeScript</span>
+                    </div>
+                    <div class="view-btn">Ver detalles <i class="fas fa-arrow-right"></i></div>
+                </div>
+            </div>
+
+            <div class="project-card animate" data-modal="osint">
+                <img src="images/kalilinux.jpeg" alt="OSINT Kali" class="project-image" onerror="this.src='https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80'">
+                <div class="project-overlay">
+                    <h3>OSINT & Recon — Kali Linux</h3>
+                    <p>Pruebas de seguridad, OSINT y análisis de red en entorno legal</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Kali Linux</span>
+                        <span class="project-tag">Nmap</span>
+                        <span class="project-tag">Sherlock</span>
+                    </div>
+                    <div class="view-btn">Ver detalles <i class="fas fa-arrow-right"></i></div>
+                </div>
+            </div>
+
+            <div class="project-card animate" data-modal="claudekali">
+                <img src="images/servidorlclaude.png" alt="Claude + Kali" class="project-image" onerror="this.src='https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&q=80'">
+                <div class="project-overlay">
+                    <h3>Claude AI + Kali Linux Server</h3>
+                    <p>Integración de IA con entorno Kali vía MCP para ejecución de comandos</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Claude AI</span>
+                        <span class="project-tag">MCP</span>
+                        <span class="project-tag">Kali Linux</span>
+                    </div>
+                    <div class="view-btn">Ver detalles <i class="fas fa-arrow-right"></i></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline">
+    <div class="section">
+        <h2 class="section-title animate">Trayectoria</h2>
+        <div class="timeline">
+
+            <div class="tl-item animate">
+                <div class="tl-content">
+                    <div class="tl-year">2021 — 2022</div>
+                    <div class="tl-title">Primer Empleo · Andamios y Equipos V.C</div>
+                    <div class="tl-desc">Conductor de reparto. Primer contacto con el mundo laboral y la logística de materiales de construcción — la misma empresa para la que luego desarrollaría el sistema POS.</div>
+                </div>
+                <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+                <div class="tl-empty"></div>
+            </div>
+
+            <div class="tl-item animate">
+                <div class="tl-empty"></div>
+                <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+                <div class="tl-content">
+                    <div class="tl-year">2022</div>
+                    <div class="tl-title">Bachiller Académico · Kaizen</div>
+                    <div class="tl-desc">Grado de bachillerato. Inicio del camino formal hacia la tecnología y el desarrollo de software.</div>
+                </div>
+            </div>
+
+            <div class="tl-item animate">
+                <div class="tl-content">
+                    <div class="tl-year">2022 — Presente</div>
+                    <div class="tl-title">Tecnólogo en Desarrollo de Software · UNIMINUTO</div>
+                    <div class="tl-desc">Corporación Universitaria Minuto de Dios. Formación en programación web, bases de datos, arquitectura de software y fundamentos de ciberseguridad. Período estimado de grado: 2026.</div>
+                </div>
+                <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+                <div class="tl-empty"></div>
+            </div>
+
+            <div class="tl-item animate">
+                <div class="tl-empty"></div>
+                <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+                <div class="tl-content">
+                    <div class="tl-year">2023 — 2024</div>
+                    <div class="tl-title">Primeros Proyectos Reales</div>
+                    <div class="tl-desc">Desarrollo de DevMarket (e-commerce con Angular), portafolio web personal y primeros proyectos académicos con bases de datos relacionales y no relacionales.</div>
+                </div>
+            </div>
+
+            <div class="tl-item animate">
+                <div class="tl-content">
+                    <div class="tl-year">Abr 2025</div>
+                    <div class="tl-title">Certificación · Fundamentos de Ciberseguridad</div>
+                    <div class="tl-desc">Formación virtual en fundamentos de ciberseguridad. Inicio formal del camino hacia el ethical hacking y la seguridad ofensiva.</div>
+                </div>
+                <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+                <div class="tl-empty"></div>
+            </div>
+
+            <div class="tl-item animate">
+                <div class="tl-empty"></div>
+                <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+                <div class="tl-content">
+                    <div class="tl-year">Jun 2025</div>
+                    <div class="tl-title">Certificación · Introducción al Hacking Ético</div>
+                    <div class="tl-desc">Formación en hacking ético, OSINT y reconocimiento pasivo. Inicio de prácticas con Kali Linux, Nmap, Wireshark y Sherlock en entornos controlados.</div>
+                </div>
+            </div>
+
+            <div class="tl-item animate">
+                <div class="tl-content">
+                    <div class="tl-year">2025 — 2026</div>
+                    <div class="tl-title">Sistema POS · Andamios V.H + Creativa Avisos</div>
+                    <div class="tl-desc">Desarrollo y despliegue de soluciones reales para empresas: sistema de gestión de alquiler con Next.js/Supabase y plataforma de cotizaciones y pedidos para empresa de avisos.</div>
+                </div>
+                <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+                <div class="tl-empty"></div>
+            </div>
+
+            <div class="tl-item animate">
+                <div class="tl-empty"></div>
+                <div class="tl-dot-wrap"><div class="tl-dot future"></div></div>
+                <div class="tl-content future-card">
+                    <div class="tl-year">2026 →</div>
+                    <div class="tl-title">🎓 Grado · Tecnólogo en Desarrollo de Software</div>
+                    <div class="tl-desc">Meta inmediata: obtener el título y consolidar experiencia profesional como desarrollador junior con enfoque en seguridad.</div>
+                </div>
+            </div>
+
+            <div class="tl-item animate">
+                <div class="tl-content future-card">
+                    <div class="tl-year">2026 — 2027</div>
+                    <div class="tl-title">🚀 Eilof — Empresa Propia</div>
+                    <div class="tl-desc">Consolidar Eilof como empresa de ciberseguridad y desarrollo de software para LATAM. Proteger sistemas críticos y construir soluciones digitales de alto rendimiento.</div>
+                </div>
+                <div class="tl-dot-wrap"><div class="tl-dot future"></div></div>
+                <div class="tl-empty"></div>
+            </div>
+
+            <div class="tl-item animate">
+                <div class="tl-empty"></div>
+                <div class="tl-dot-wrap"><div class="tl-dot future"></div></div>
+                <div class="tl-content future-card">
+                    <div class="tl-year">2027 →</div>
+                    <div class="tl-title">🌎 Referente en Ciberseguridad LATAM</div>
+                    <div class="tl-desc">Certificaciones internacionales (CEH, OSCP), liderazgo técnico y construcción de la empresa de ciberseguridad más confiable de Colombia y LATAM.</div>
+                </div>
+            </div>
+
+            <div style="text-align:left;margin-top:2rem">
+                <button class="tl-cv-btn" onclick="openCVModal()"><i class="fas fa-file-pdf"></i> Ver CV completa</button>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+    <div class="section">
+        <h2 class="section-title animate">Contacto</h2>
+        <div class="contact-grid">
+            <!-- COLUMNA IZQUIERDA: info + links -->
+            <div class="animate-left">
+                <div class="contact-text" style="margin-bottom:2rem">
+                    <h3>¿Tienes un proyecto en mente?</h3>
+                    <p>Ya sea desarrollo web, análisis de seguridad o una solución desde cero — hablemos. Me adapto a tus tiempos, presupuesto y objetivos.</p>
+                    <p>Tiempo de respuesta: <strong style="color:var(--green-glow)">menos de 24 horas.</strong></p>
+                    <div class="availability"><span class="dot"></span> Disponible · Villavicencio, Colombia</div>
+                </div>
+                <div class="contact-cards">
+                    <a href="mailto:Fepahe.2003@gmail.com" class="contact-card">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div class="contact-card-info"><strong>Email</strong><span>Fepahe.2003@gmail.com</span></div>
+                        <i class="fas fa-arrow-right contact-card-arrow"></i>
+                    </a>
+                    <a href="https://github.com/felipe6942" target="_blank" class="contact-card">
+                        <div class="contact-icon"><i class="fab fa-github"></i></div>
+                        <div class="contact-card-info"><strong>GitHub</strong><span>github.com/felipepatino</span></div>
+                        <i class="fas fa-arrow-right contact-card-arrow"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/felipe-pati%C3%B1o-bb864b3b8/" target="_blank" class="contact-card">
+                        <div class="contact-icon"><i class="fab fa-linkedin-in"></i></div>
+                        <div class="contact-card-info"><strong>LinkedIn</strong><span>/in/felipepatino</span></div>
+                        <i class="fas fa-arrow-right contact-card-arrow"></i>
+                    </a>
+                    <a href="https://wa.me/573204753030" target="_blank" class="contact-card">
+                        <div class="contact-icon" style="color:var(--green-glow);border-color:rgba(0,255,136,0.3)"><i class="fab fa-whatsapp"></i></div>
+                        <div class="contact-card-info"><strong>WhatsApp</strong><span>+57 320 475 3030</span></div>
+                        <i class="fas fa-arrow-right contact-card-arrow"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- COLUMNA DERECHA: formulario EmailJS -->
+            <div class="animate-right">
+                <form class="contact-form" id="contactForm" novalidate>
+                    <div class="form-group">
+                        <label for="from_name">Nombre</label>
+                        <input type="text" id="from_name" name="from_name" placeholder="Tu nombre completo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Teléfono <span style="opacity:0.4;font-size:0.7rem">(opcional)</span></label>
+                        <input type="tel" id="phone" name="phone" placeholder="+57 300 000 0000">
+                    </div>
+                    <div class="form-group">
+                        <label for="from_email">Email</label>
+                        <input type="email" id="from_email" name="from_email" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Asunto</label>
+                        <input type="text" id="subject" name="subject" placeholder="¿En qué te puedo ayudar?">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Mensaje</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Cuéntame sobre tu proyecto..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-send" id="btnSend">
+                        <i class="fas fa-paper-plane"></i> Enviar mensaje
+                    </button>
+                    <div class="form-status" id="formStatus"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-main">
+        <div class="footer-brand">
+            <span class="logo">FP⚡</span>
+            <p>Tecnólogo en Desarrollo de Software · Ethical Hacker en formación. Construyendo soluciones seguras desde Villavicencio, Colombia.</p>
+            <div class="eilof-badge"><i class="fas fa-shield-halved"></i> EILOF — En construcción</div>
+        </div>
+        <div class="footer-col">
+            <h4>Navegación</h4>
+            <ul class="footer-links">
+                <li><a href="#home">Inicio</a></li>
+                <li><a href="#about">Sobre mí</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Proyectos</a></li>
+                <li><a href="#timeline">Trayectoria</a></li>
+                <li><a href="#contact">Contacto</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Tecnologías</h4>
+            <ul class="footer-links">
+                <li><a href="#">Python · SQL</a></li>
+                <li><a href="#">React · Angular</a></li>
+                <li><a href="#">Next.js · NestJS</a></li>
+                <li><a href="#">Kali Linux · OSINT</a></li>
+                <li><a href="#">Supabase · MongoDB</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Redes</h4>
+            <div class="footer-social">
+                <a href="https://github.com" target="_blank" class="social-link"><i class="fab fa-github"></i> GitHub</a>
+                <a href="https://linkedin.com" target="_blank" class="social-link"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+                <a href="https://wa.me/573204753030" target="_blank" class="social-link" style="color:rgba(0,255,136,0.6)"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                <a href="mailto:Fepahe.2003@gmail.com" class="social-link"><i class="fas fa-envelope"></i> Email</a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 Felipe Alejandro Patiño Hernández · Todos los derechos reservados</p>
+        <div style="display:flex;align-items:center;gap:1.5rem">
+            <p class="terminal-line">root@eilof:~$ status --online<span>_</span></p>
+            <p style="opacity:0.3;font-size:0.8rem">Villavicencio · Colombia</p>
+        </div>
+    </div>
+</footer>
+
+<!-- MODALS PROYECTOS -->
+<div id="modal-appandamios" class="modal">
+    <div class="modal-content">
+        <div class="modal-header"><h2 class="modal-title">Sistema POS — Andamios V.H</h2><div class="close"><i class="fas fa-times"></i></div></div>
+        <div class="modal-body">
+            <div class="modal-imgs">
+                <img src="images/appandamios.png" class="modal-img" onerror="this.style.display='none'">
+                <img src="images/appandamios2.png" class="modal-img" onerror="this.style.display='none'">
+                <img src="images/appandamios3.png" class="modal-img" onerror="this.style.display='none'">
+            </div>
+            <div class="status-badge status-active"><i class="fas fa-circle" style="font-size:0.6rem"></i> Activo — En producción</div>
+            <p>Software de gestión integral para empresa de alquiler de materiales de construcción. Solución real para Andamios y Equipos V.H que gestiona la rentabilidad del negocio — control de salidas, devoluciones, clientes y reportes semanales.</p>
+            <div class="tech-tags"><span class="tech-tag">Next.js</span><span class="tech-tag">TypeScript</span><span class="tech-tag">Supabase</span><span class="tech-tag">Tailwind CSS</span><span class="tech-tag">Nodemailer</span></div>
+            <ul class="features-list">
+                <li>Dashboard con KPIs en tiempo real: materiales, alquileres activos, ingresos del día</li>
+                <li>Registro de salidas y entradas de material con número de orden automático</li>
+                <li>Gestión de clientes, materiales y usuarios con roles y permisos</li>
+                <li>Alertas automáticas de devoluciones próximas vía Email y WhatsApp</li>
+                <li>Reportes semanales con filtros por fecha, material y cliente</li>
+                <li>Sistema de autenticación seguro con Supabase Auth</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id="modal-avisos" class="modal">
+    <div class="modal-content">
+        <div class="modal-header"><h2 class="modal-title">Creativa Avisos — Gestión Pro</h2><div class="close"><i class="fas fa-times"></i></div></div>
+        <div class="modal-body">
+            <img src="images/avisos.bogota.png" class="modal-img single" onerror="this.style.display='none'">
+            <div class="status-badge status-wip"><i class="fas fa-code" style="font-size:0.6rem"></i> En desarrollo activo</div>
+            <p>Plataforma de gestión para empresa de avisos y publicidad. Permite administrar cotizaciones, pedidos, control de inventario de materiales (madera, acrílicos, vinilo) y facturación integrada con Siigo API.</p>
+            <div class="tech-tags"><span class="tech-tag">Angular</span><span class="tech-tag">NestJS</span><span class="tech-tag">SQLite</span><span class="tech-tag">Siigo API</span><span class="tech-tag">TypeScript</span></div>
+            <ul class="features-list">
+                <li>Dashboard con ventas del mes, cotizaciones activas y pedidos pendientes</li>
+                <li>Módulo de cotizaciones con generación automática de precios por material</li>
+                <li>Control de stock crítico con alertas visuales de inventario</li>
+                <li>Tablero de entregas con fechas y estados en tiempo real</li>
+                <li>Integración con Siigo API para subir facturas automáticamente</li>
+                <li>Gestión de clientes y historial de pedidos</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id="modal-mapa" class="modal">
+    <div class="modal-content">
+        <div class="modal-header"><h2 class="modal-title">Big Data — Análisis Transporte NYC</h2><div class="close"><i class="fas fa-times"></i></div></div>
+        <div class="modal-body">
+            <img src="images/analicisdedatosmapadecalor.png" class="modal-img single" onerror="this.style.display='none'">
+            <div class="status-badge status-concept"><i class="fas fa-flask" style="font-size:0.6rem"></i> Proyecto académico</div>
+            <p>Análisis de big data sobre afluencia de taxis en la ciudad de Nueva York. Utiliza datasets CSV públicos de viajes de taxi para generar visualizaciones interactivas de calor que muestran patrones de demanda por zonas y horarios.</p>
+            <div class="tech-tags"><span class="tech-tag">Python</span><span class="tech-tag">Pandas</span><span class="tech-tag">Folium</span><span class="tech-tag">Leaflet.js</span><span class="tech-tag">NumPy</span></div>
+            <ul class="features-list">
+                <li>Procesamiento de grandes volúmenes de datos CSV con Pandas</li>
+                <li>Generación de mapas de calor interactivos con Folium + Leaflet</li>
+                <li>Análisis de densidad de viajes por zona geográfica de Manhattan</li>
+                <li>Visualización de patrones de demanda en capas combinadas</li>
+                <li>Exportación a HTML interactivo standalone</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id="modal-devmarket" class="modal">
+    <div class="modal-content">
+        <div class="modal-header"><h2 class="modal-title">DevMarket — E-Commerce</h2><div class="close"><i class="fas fa-times"></i></div></div>
+        <div class="modal-body">
+            <img src="images/devmarket.png" class="modal-img single" onerror="this.style.display='none'">
+            <div class="status-badge status-wip"><i class="fas fa-code" style="font-size:0.6rem"></i> En desarrollo continuo</div>
+            <p>Tienda en línea base construida con Angular que consume APIs externas para mostrar productos reales. Proyecto en evolución hacia una plataforma completa con análisis de ventas, carrito de compras y panel de administración.</p>
+            <div class="tech-tags"><span class="tech-tag">Angular</span><span class="tech-tag">TypeScript</span><span class="tech-tag">FakeStore API</span><span class="tech-tag">RxJS</span></div>
+            <ul class="features-list">
+                <li>Catálogo de productos con filtros por categoría y búsqueda en tiempo real</li>
+                <li>Integración con API externa para datos de productos reales</li>
+                <li>Sistema de carrito de compras con gestión de cantidades</li>
+                <li>Diseño responsivo con navbar, ratings y precios formateados</li>
+                <li>Base para análisis de datos de ventas y cifras de conversión</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id="modal-osint" class="modal">
+    <div class="modal-content">
+        <div class="modal-header"><h2 class="modal-title">OSINT & Recon — Kali Linux</h2><div class="close"><i class="fas fa-times"></i></div></div>
+        <div class="modal-body">
+            <img src="images/kalilinux2.jpeg" class="modal-img single" onerror="this.src='https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80'">
+            <div class="status-badge status-active"><i class="fas fa-shield-halved" style="font-size:0.6rem"></i> Práctica continua</div>
+            <p>Entorno de prácticas en ciberseguridad ofensiva dentro de marcos legales y educativos. Uso de herramientas de reconocimiento pasivo, enumeración OSINT y análisis de tráfico de red para comprender vulnerabilidades antes de que otros las exploten.</p>
+            <div class="tech-tags"><span class="tech-tag">Kali Linux</span><span class="tech-tag">Nmap</span><span class="tech-tag">Sherlock</span><span class="tech-tag">Wireshark</span><span class="tech-tag">PhoneInfoga</span></div>
+            <ul class="features-list">
+                <li>Reconocimiento pasivo y enumeración de usuarios con Sherlock</li>
+                <li>Escaneo de redes y detección de puertos con Nmap</li>
+                <li>Análisis de tráfico HTTP/HTTPS con Wireshark en entornos de prueba</li>
+                <li>OSINT de huella digital personal con PhoneInfoga</li>
+                <li>Investigación de dominios sospechosos para casos de fraude digital</li>
+                <li>Documentación técnica de hallazgos en formato de reporte</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id="modal-claudekali" class="modal">
+    <div class="modal-content">
+        <div class="modal-header"><h2 class="modal-title">Claude AI + Kali Linux Server</h2><div class="close"><i class="fas fa-times"></i></div></div>
+        <div class="modal-body">
+            <img src="images/servercalude.png" class="modal-img single" onerror="this.src='https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&q=80'">
+            <div class="status-badge status-wip"><i class="fas fa-robot" style="font-size:0.6rem"></i> Exploración experimental</div>
+            <p>Integración experimental de Claude AI (Anthropic) con un servidor Kali Linux mediante el protocolo MCP (Model Context Protocol). Permite que la IA acceda y ejecute herramientas de seguridad de Kali de forma controlada, combinando inteligencia artificial con capacidades de pentesting.</p>
+            <div class="tech-tags"><span class="tech-tag">Claude AI</span><span class="tech-tag">MCP Protocol</span><span class="tech-tag">Kali Linux</span><span class="tech-tag">Python</span><span class="tech-tag">SSH</span></div>
+            <ul class="features-list">
+                <li>Configuración de servidor MCP en entorno Kali Linux</li>
+                <li>Ejecución de comandos de red y reconocimiento vía Claude.ai</li>
+                <li>Automatización de escaneos Nmap dirigidos por IA</li>
+                <li>Análisis e interpretación de resultados por la IA en tiempo real</li>
+                <li>Exploración de posibilidades entre IA y ciberseguridad ofensiva</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- CV MODAL -->
+<div id="modal-cv" class="modal">
+    <div class="modal-content" style="max-width:480px">
+        <div class="modal-header"><h2 class="modal-title">Hoja de Vida</h2><div class="close" id="cv-close"><i class="fas fa-times"></i></div></div>
+        <div class="cv-modal-body">
+            <div style="font-size:4rem;margin-bottom:1rem">📄</div>
+            <h3>¿Deseas ver mi CV completa?</h3>
+            <p>Descarga mi hoja de vida actualizada con formación académica, habilidades técnicas, proyectos y referencias.</p>
+            <a href="/components/Felipe Alejandro Patiño Hernandez_HOJA_DE_VIDA 2026x.pdf" download class="cv-download-btn">
+                <i class="fas fa-download"></i> Descargar CV
+            </a>
+            <p style="margin-top:1.5rem;font-size:0.8rem;opacity:0.5;font-family:'Share Tech Mono',monospace">Felipe_Patino_CV_2026.pdf</p>
+        </div>
+    </div>
+</div>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+function animCursor(){
+    cursor.style.left=(mx-6)+'px';cursor.style.top=(my-6)+'px';
+    rx+=(mx-rx-18)*0.15;ry+=(my-ry-18)*0.15;
+    ring.style.left=rx+'px';ring.style.top=ry+'px';
+    requestAnimationFrame(animCursor);
+}
+animCursor();
+document.querySelectorAll('a,button,.project-card,.close,.skill-logo,.tl-cv-btn').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cursor.style.transform='scale(2)';ring.style.transform='scale(1.4)';ring.style.borderColor='var(--green-glow)';});
+    el.addEventListener('mouseleave',()=>{cursor.style.transform='scale(1)';ring.style.transform='scale(1)';ring.style.borderColor='rgba(0,212,255,0.5)';});
+});
+
+// CANVAS BG
+const canvas=document.getElementById('bg-canvas');
+const ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;initNodes();});
+const cols=Math.floor(canvas.width/20);
+const drops=Array(cols).fill(1);
+const chars='01アイウエオSECURITY{}<>/HACK';
+let nodes=[];
+function initNodes(){nodes=Array.from({length:55},()=>({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-0.5)*0.4,vy:(Math.random()-0.5)*0.4,r:Math.random()*2.5+1}));}
+initNodes();
+function drawBg(){
+    ctx.fillStyle='rgba(5,10,15,0.07)';ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.font='13px Share Tech Mono,monospace';
+    drops.forEach((y,i)=>{const ch=chars[Math.floor(Math.random()*chars.length)];ctx.fillStyle=`rgba(0,212,255,${Math.random()*0.25+0.05})`;ctx.fillText(ch,i*20,y*20);if(y*20>canvas.height&&Math.random()>0.975)drops[i]=0;drops[i]++;});
+    nodes.forEach(n=>{n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>canvas.width)n.vx*=-1;if(n.y<0||n.y>canvas.height)n.vy*=-1;ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle='rgba(0,212,255,0.5)';ctx.fill();});
+    nodes.forEach((a,i)=>{for(let j=i+1;j<nodes.length;j++){const b=nodes[j];const d=Math.hypot(a.x-b.x,a.y-b.y);if(d<140){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=`rgba(0,212,255,${(1-d/140)*0.12})`;ctx.lineWidth=0.7;ctx.stroke();}}});
+    requestAnimationFrame(drawBg);
+}
+drawBg();
+
+// TYPING
+const phrases=['> Protegiendo sistemas...','> Building secure apps...','> Analizando vulnerabilidades...','> Founder @ Eilof','> SQL · Python · Kali Linux'];
+let pi=0,ci=0,del=false;
+const el=document.getElementById('typing-text');
+function typeWriter(){const phrase=phrases[pi];if(!del){el.textContent=phrase.slice(0,++ci);if(ci===phrase.length){del=true;setTimeout(typeWriter,2000);return;}}else{el.textContent=phrase.slice(0,--ci);if(ci===0){del=false;pi=(pi+1)%phrases.length;}}setTimeout(typeWriter,del?40:70);}
+typeWriter();
+
+// NAVBAR
+let lastScroll=0;
+window.addEventListener('scroll',()=>{const cur=window.pageYOffset;document.getElementById('navbar').classList.toggle('hidden',cur>lastScroll&&cur>100);lastScroll=cur;});
+
+// SMOOTH SCROLL
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}});});
+
+// INTERSECTION OBSERVER
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('active');});},{threshold:0.12});
+document.querySelectorAll('.animate,.animate-left,.animate-right').forEach(el=>obs.observe(el));
+
+// MODALS
+function openModal(id){const m=document.getElementById('modal-'+id);if(m){m.classList.add('open');document.body.style.overflow='hidden';}}
+function closeAllModals(){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open'));document.body.style.overflow='';}
+function openCVModal(){closeAllModals();document.getElementById('modal-cv').classList.add('open');document.body.style.overflow='hidden';}
+
+document.querySelectorAll('.project-card').forEach(card=>{card.addEventListener('click',()=>openModal(card.dataset.modal));});
+document.querySelectorAll('.close').forEach(btn=>{btn.addEventListener('click',e=>{e.stopPropagation();closeAllModals();});});
+document.querySelectorAll('.modal').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)closeAllModals();});});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAllModals();});
+document.querySelectorAll('.tl-cv-btn').forEach(btn=>{btn.addEventListener('click',openCVModal);});
+
+// HAMBURGER MENU
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('navMenu');
+hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    navMenu.classList.toggle('open');
+    document.body.style.overflow = navMenu.classList.contains('open') ? 'hidden' : '';
+});
+// Cerrar menú al hacer click en un link
+navMenu.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navMenu.classList.remove('open');
+        document.body.style.overflow = '';
+    });
+});
+
+// EMAILJS
+(function(){
+    emailjs.init({ publicKey: 'yOk_ThGjCuRM86hCp' });
+})();
+ 
+const contactForm = document.getElementById('contactForm');
+const formStatus = document.getElementById('formStatus');
+const btnSend = document.getElementById('btnSend');
+ 
+contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+ 
+    // Validación básica
+    const name = document.getElementById('from_name').value.trim();
+    const email = document.getElementById('from_email').value.trim();
+    const message = document.getElementById('message').value.trim();
+ 
+    if (!name || !email || !message) {
+        formStatus.className = 'form-status error';
+        formStatus.textContent = '⚠ Por favor completa los campos obligatorios.';
+        return;
+    }
+ 
+    // Estado de carga
+    btnSend.disabled = true;
+    btnSend.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+    formStatus.className = 'form-status';
+    formStatus.textContent = '';
+ 
+    emailjs.sendForm('service_jus1lmm', 'template_z1rz8om', this)
+        .then(() => {
+            formStatus.className = 'form-status success';
+            formStatus.textContent = '✅ Mensaje enviado correctamente. Te respondo en menos de 24h.';
+            contactForm.reset();
+            btnSend.disabled = false;
+            btnSend.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar mensaje';
+        })
+        .catch((error) => {
+            console.error('EmailJS error:', error);
+            formStatus.className = 'form-status error';
+            formStatus.textContent = '❌ Error al enviar. Escríbeme directamente a Fepahe.2003@gmail.com';
+            btnSend.disabled = false;
+            btnSend.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar mensaje';
+        });
+});
+</script>
+</body>
+</html>
